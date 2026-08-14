@@ -8,6 +8,7 @@ from flask import (
     url_for,
     send_from_directory,
 )
+from werkzeug.exceptions import RequestEntityTooLarge
 from werkzeug.utils import secure_filename
 
 from audio_processor import extract_audio_metadata
@@ -20,6 +21,7 @@ UPLOAD_FOLDER = "uploads"
 ALLOWED_EXTENSIONS = {"wav", "mp3", "m4a", "ogg", "flac"}
 
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+app.config["MAX_CONTENT_LENGTH"] = 25 * 1024 * 1024
 
 
 def allowed_file(filename):
@@ -143,6 +145,9 @@ def uploaded_file(filename):
         app.config["UPLOAD_FOLDER"],
         filename,
     )
+@app.errorhandler(RequestEntityTooLarge)
+def handle_file_too_large(error):
+    return "Audio file is too large. Maximum allowed size is 25 MB.", 413
 
 
 if __name__ == "__main__":
