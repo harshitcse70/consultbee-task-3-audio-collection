@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Submissions</title>
+</head>
+<body>
+
+    <h1>Audio Submissions</h1>
+
+    <a href="/">Submit New Audio</a>
+
+    <br><br>
+
+    {% if submissions %}
+
+        {% for submission in submissions %}
+
+            <div>
+                <h3>{{ submission["name"] }}</h3>
+
+                <p>
+                    <strong>Phone:</strong>
+                    {{ submission["phone"] }}
+                </p>
+
+                <p>
+                    <strong>Audio:</strong>
+                    {{ submission["audio_filename"] }}
+                </p>
+
+                <audio controls>
+                    <source
+                        src="{{ url_for('uploaded_file', filename=submission['audio_filename']) }}"
+                    >
+                    Your browser does not support audio playback.
+                </audio>
+
+                <p>
+                    <strong>Duration:</strong>
+                    {{ submission["duration_seconds"] }} sec
+                </p>
+
+                <p>
+                    <strong>Sample Rate:</strong>
+                    {{ submission["sample_rate_khz"] }} kHz
+                </p>
+
+                <p>
+                    <strong>Bitrate:</strong>
+                    {{ submission["bitrate_kbps"] }} kbps
+                </p>
+
+                <p>
+                    <strong>Loudness:</strong>
+                    {{ submission["loudness_db"] }} dB
+                </p>
+
+                <hr>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>No submissions yet.</p>
+
+    {% endif %}
+
+</body>
+</html>

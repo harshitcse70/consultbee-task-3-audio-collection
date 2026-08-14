@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Collection App</title>
+</head>
+<body>
+
+    <h1>Audio Collection App</h1>
+
+    <form action="/submit" method="POST" enctype="multipart/form-data">
+
+        <div>
+            <label for="name">Name:</label>
+            <input
+                type="text"
+                id="name"
+                name="name"
+                required
+            >
+        </div>
+
+        <br>
+
+        <div>
+            <label for="phone">Phone Number:</label>
+            <input
+                type="tel"
+                id="phone"
+                name="phone"
+                required
+            >
+        </div>
+
+        <br>
+
+        <div>
+            <label for="audio">Audio File:</label>
+            <input
+                type="file"
+                id="audio"
+                name="audio"
+                accept="audio/*"
+                required
+            >
+        </div>
+
+        <br>
+
+        <button type="submit">Submit Audio</button>
+
+    </form>
+
+    <br>
+
+    <a href="/submissions">View All Submissions</a>
+
+</body>
+</html>
