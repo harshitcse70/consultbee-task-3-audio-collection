@@ -51,8 +51,16 @@ def submit_audio():
     if not allowed_file(audio_file.filename):
         return "Unsupported audio format.", 400
 
-    filename = secure_filename(audio_file.filename)
-    file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+    original_filename = secure_filename(audio_file.filename)
+
+    name, extension = os.path.splitext(original_filename)
+
+    filename = f"{phone}_{name}_{os.urandom(8).hex()}{extension}"
+
+    file_path = os.path.join(
+        app.config["UPLOAD_FOLDER"],
+        filename,
+    )
 
     audio_file.save(file_path)
 
@@ -145,6 +153,8 @@ def uploaded_file(filename):
         app.config["UPLOAD_FOLDER"],
         filename,
     )
+
+
 @app.errorhandler(RequestEntityTooLarge)
 def handle_file_too_large(error):
     return "Audio file is too large. Maximum allowed size is 25 MB.", 413
