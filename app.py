@@ -1,6 +1,13 @@
 import os
 
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory
+from flask import (
+    Flask,
+    render_template,
+    request,
+    redirect,
+    url_for,
+    send_from_directory,
+)
 from werkzeug.utils import secure_filename
 
 from audio_processor import extract_audio_metadata
@@ -58,7 +65,7 @@ def submit_audio():
         WHERE phone = ?
         LIMIT 1
         """,
-        (phone,)
+        (phone,),
     ).fetchone()
 
     if entity is None:
@@ -74,9 +81,10 @@ def submit_audio():
             duration_seconds,
             sample_rate_khz,
             bitrate_kbps,
-            loudness_db
+            loudness_db,
+            quality_score
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         """,
         (
             entity["entity_id"],
@@ -86,7 +94,8 @@ def submit_audio():
             metadata["sample_rate_khz"],
             metadata["bitrate_kbps"],
             metadata["loudness_db"],
-        )
+            metadata["quality_score"],
+        ),
     )
 
     connection.commit()
@@ -124,15 +133,17 @@ def submissions():
 
     return render_template(
         "submissions.html",
-        submissions=rows
+        submissions=rows,
     )
+
 
 @app.route("/uploads/<filename>")
 def uploaded_file(filename):
     return send_from_directory(
         app.config["UPLOAD_FOLDER"],
-        filename
+        filename,
     )
+
 
 if __name__ == "__main__":
     app.run(debug=True)

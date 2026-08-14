@@ -67,9 +67,19 @@ def extract_audio_metadata(file_path):
 
     loudness_db = audio.dBFS
 
+     # Rough quality estimate based on loudness.
+    # This is a heuristic, not professional noise analysis.
+    if -30 <= loudness_db <= -12:
+        quality_score = 1.0
+    elif -40 <= loudness_db < -30 or -12 < loudness_db <= -6:
+        quality_score = 0.7
+    else:
+        quality_score = 0.4
+
     return {
         "duration_seconds": round(duration, 2),
         "sample_rate_khz": round(sample_rate / 1000, 2),
         "bitrate_kbps": round(bitrate_kbps, 2),
-        "loudness_db": round(loudness_db, 2)
+        "loudness_db": round(loudness_db, 2),
+        "quality_score": quality_score
     }
