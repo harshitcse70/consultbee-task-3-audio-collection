@@ -4,39 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Audio Collection App</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
 </head>
+
 <body>
 
     <h1>Audio Collection App</h1>
 
+    <p>Submit an audio recording for collection and analysis.</p>
+
     <form action="/submit" method="POST" enctype="multipart/form-data">
 
-        <div>
-            <label for="name">Name:</label>
+        <div class="form-group">
+            <label for="name">Name</label>
+
             <input
                 type="text"
                 id="name"
                 name="name"
+                placeholder="Enter your name"
                 required
             >
         </div>
 
-        <br>
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
 
-        <div>
-            <label for="phone">Phone Number:</label>
             <input
                 type="tel"
                 id="phone"
                 name="phone"
+                placeholder="Enter your phone number"
                 required
             >
         </div>
 
-        <br>
+        <div class="form-group">
+            <label for="audio">Audio File</label>
 
-        <div>
-            <label for="audio">Audio File:</label>
             <input
                 type="file"
                 id="audio"
@@ -45,8 +54,6 @@
                 required
             >
         </div>
-
-        <br>
 
         <button type="submit">Submit Audio</button>
 
